@@ -2,10 +2,17 @@ import Link from "next/link";
 import React from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import Mermaid from "./mermaid";
 
 const NonMemoizedMarkdown = ({ children }: { children: string }) => {
   const components = {
     code: ({ node, inline, className, children, ...props }: any) => {
+      // Check if this is a Mermaid code block
+      if (!inline && className === "language-mermaid") {
+        return <Mermaid chart={String(children)} />;
+      }
+
+      // Existing code block rendering logic
       const match = /language-(\w+)/.exec(className || "");
       return !inline && match ? (
         <pre
@@ -39,7 +46,7 @@ const NonMemoizedMarkdown = ({ children }: { children: string }) => {
     },
     ul: ({ node, children, ...props }: any) => {
       return (
-        <ul className="list-decimal list-outside ml-4" {...props}>
+        <ul className="list-disc list-outside ml-4" {...props}>
           {children}
         </ul>
       );
@@ -74,5 +81,5 @@ const NonMemoizedMarkdown = ({ children }: { children: string }) => {
 
 export const Markdown = React.memo(
   NonMemoizedMarkdown,
-  (prevProps, nextProps) => prevProps.children === nextProps.children,
+  (prevProps, nextProps) => prevProps.children === nextProps.children
 );

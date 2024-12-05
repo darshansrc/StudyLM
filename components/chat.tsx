@@ -42,7 +42,7 @@ export function Chat({
     if (isMounted !== false && session && session.user) {
       localStorage.setItem(
         `${session.user.email}/selected-file-pathnames`,
-        JSON.stringify(selectedFilePathnames),
+        JSON.stringify(selectedFilePathnames)
       );
     }
   }, [selectedFilePathnames, isMounted, session]);
@@ -56,9 +56,9 @@ export function Chat({
       setSelectedFilePathnames(
         JSON.parse(
           localStorage.getItem(
-            `${session.user.email}/selected-file-pathnames`,
-          ) || "[]",
-        ),
+            `${session.user.email}/selected-file-pathnames`
+          ) || "[]"
+        )
       );
     }
   }, [session]);
@@ -75,7 +75,7 @@ export function Chat({
     useScrollToBottom<HTMLDivElement>();
 
   return (
-    <div className="flex flex-row justify-center pb-20 h-dvh bg-white dark:bg-zinc-900">
+    <div className="flex flex-row justify-center pb-10 h-dvh bg-white dark:bg-zinc-900">
       <div className="flex flex-col justify-between items-center gap-4">
         <div
           ref={messagesContainerRef}
