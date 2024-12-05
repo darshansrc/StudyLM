@@ -1,6 +1,7 @@
 import { Navbar } from "@/components/navbar";
 import { Metadata } from "next";
 import { Toaster } from "sonner";
+import { ThemeProvider } from "next-themes";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -21,7 +22,9 @@ export default function RootLayout({
       <body>
         <Toaster position="top-center" />
         <Navbar />
-        {children}
+        <ThemeProvider attribute="class" enableSystem forcedTheme="dark">
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

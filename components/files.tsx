@@ -14,6 +14,8 @@ import { fetcher } from "@/utils/functions";
 import cx from "classnames";
 import { motion } from "framer-motion";
 import { useOnClickOutside, useWindowSize } from "usehooks-ts";
+import { ListChecksIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export const Files = ({
   selectedFilePathnames,
@@ -41,6 +43,7 @@ export const Files = ({
 
   const { width } = useWindowSize();
   const isDesktop = width > 768;
+  const router = useRouter();
 
   const drawerRef = useRef(null);
   useOnClickOutside([drawerRef], () => {
@@ -81,42 +84,57 @@ export const Files = ({
             </div>
           </div>
 
-          <input
-            name="file"
-            ref={inputFileRef}
-            type="file"
-            required
-            className="opacity-0 pointer-events-none w-1"
-            accept="application/pdf"
-            multiple={false}
-            onChange={async (event) => {
-              const file = event.target.files![0];
+          <div className="flex flex-row items-center gap-2">
+            <input
+              name="file"
+              ref={inputFileRef}
+              type="file"
+              required
+              className="opacity-0 pointer-events-none w-1"
+              accept="application/pdf"
+              multiple={false}
+              onChange={async (event) => {
+                const file = event.target.files![0];
 
-              if (file) {
-                setUploadQueue((currentQueue) => [...currentQueue, file.name]);
+                if (file) {
+                  setUploadQueue((currentQueue) => [
+                    ...currentQueue,
+                    file.name,
+                  ]);
 
-                await fetch(`/api/files/upload?filename=${file.name}`, {
-                  method: "POST",
-                  body: file,
-                });
+                  await fetch(`/api/files/upload?filename=${file.name}`, {
+                    method: "POST",
+                    body: file,
+                  });
 
-                setUploadQueue((currentQueue) =>
-                  currentQueue.filter((filename) => filename !== file.name)
-                );
+                  setUploadQueue((currentQueue) =>
+                    currentQueue.filter((filename) => filename !== file.name)
+                  );
 
-                mutate([...(files || []), { pathname: file.name }]);
-              }
-            }}
-          />
+                  mutate([...(files || []), { pathname: file.name }]);
+                }
+              }}
+            />
 
-          <div
-            className="bg-zinc-900 text-zinc-50 hover:bg-zinc-800 flex flex-row gap-2 items-center dark:text-zinc-800 text-sm dark:bg-zinc-100 rounded-md p-1 px-2 dark:hover:bg-zinc-200 cursor-pointer"
-            onClick={() => {
-              inputFileRef.current?.click();
-            }}
-          >
-            <UploadIcon />
-            <div>Upload a file</div>
+            <div
+              className="bg-zinc-900 text-zinc-50 hover:bg-zinc-800 flex flex-row gap-2 items-center dark:text-zinc-100 border text-sm dark:bg-zinc-800 rounded-md p-1 px-2 dark:hover:bg-zinc-900 cursor-pointer"
+              onClick={() => {
+                router.push("/quiz");
+              }}
+            >
+              <ListChecksIcon size={16} />
+              <div>Create Quiz</div>
+            </div>
+
+            <div
+              className="bg-zinc-900 text-zinc-50 hover:bg-zinc-800 flex flex-row gap-2 items-center dark:text-zinc-800 text-sm dark:bg-zinc-100 rounded-md p-1 px-2 dark:hover:bg-zinc-200 cursor-pointer"
+              onClick={() => {
+                inputFileRef.current?.click();
+              }}
+            >
+              <UploadIcon />
+              <div>Upload a file</div>
+            </div>
           </div>
         </div>
 
