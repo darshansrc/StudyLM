@@ -1,6 +1,8 @@
 import { auth, signOut } from "@/app/(auth)/auth";
 import Link from "next/link";
 import { History } from "./history";
+import { Tabs, TabsList } from "./ui/tabs";
+import NavTab from "./nav-tab";
 
 export const Navbar = async () => {
   let session = await auth();
@@ -11,6 +13,8 @@ export const Navbar = async () => {
         <History />
         <div className="text-sm dark:text-zinc-300">StudyLM</div>
       </div>
+
+      <NavTab />
 
       {session ? (
         <div className="group py-1 px-2 rounded-md hover:bg-zinc-100 dark:hover:bg-zinc-800 cursor-pointer relative">

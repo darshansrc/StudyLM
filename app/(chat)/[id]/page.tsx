@@ -4,6 +4,8 @@ import { getChatById } from "@/app/db";
 import { notFound } from "next/navigation";
 import { Chat as PreviewChat } from "@/components/chat";
 import { auth } from "@/app/(auth)/auth";
+import { Dashboard } from "./dashboard";
+import Notes from "@/components/notes";
 
 export default async function Page({ params }: { params: any }) {
   const { id } = params;
@@ -26,10 +28,6 @@ export default async function Page({ params }: { params: any }) {
   }
 
   return (
-    <PreviewChat
-      id={chat.id}
-      initialMessages={chat.messages}
-      session={session}
-    />
+    <Dashboard id={chat.id} initialMessages={chat.messages} session={session} />
   );
 }
