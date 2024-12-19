@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { BotIcon, UserIcon } from "./icons";
 import { ReactNode } from "react";
 import { Markdown } from "./markdown";
+import { TextToSpeechButton } from "./speech";
 
 export const Message = ({
   role,
@@ -26,6 +27,11 @@ export const Message = ({
         <div className="text-zinc-800 dark:text-zinc-300 flex flex-col gap-4">
           <Markdown>{content as string}</Markdown>
         </div>
+        {role === "assistant" && (
+          <div className="flex justify-end">
+            <TextToSpeechButton text={content as string} />
+          </div>
+        )}
       </div>
     </motion.div>
   );

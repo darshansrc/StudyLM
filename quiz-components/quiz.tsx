@@ -30,18 +30,18 @@ const QuestionCard: React.FC<{
   const answerLabels = ["A", "B", "C", "D"];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 bg-zinc-900">
       <h2 className="text-lg font-semibold leading-tight">
         {question.question}
       </h2>
-      <div className="grid grid-cols-1 gap-4">
+      <div className="grid bg-zinc-900 grid-cols-1 gap-4">
         {question.options.map((option, index) => (
           <Button
             key={index}
             variant={
               selectedAnswer === answerLabels[index] ? "secondary" : "outline"
             }
-            className={`h-auto py-10 px-4 h-16  items-center justify-start text-left whitespace-normal ${
+            className={`h-auto py-10 px-4 h-16  items-center  justify-start text-left whitespace-normal ${
               showCorrectAnswer && answerLabels[index] === question.answer
                 ? "bg-green-600 hover:bg-green-700"
                 : showCorrectAnswer &&
@@ -120,14 +120,6 @@ export default function Quiz({
       return acc + (question.answer === answers[index] ? 1 : 0);
     }, 0);
     setScore(correctAnswers);
-  };
-
-  const handleReset = () => {
-    setAnswers(Array(questions.length).fill(null));
-    setIsSubmitted(false);
-    setScore(null);
-    setCurrentQuestionIndex(0);
-    setProgress(0);
   };
 
   const currentQuestion = questions[currentQuestionIndex];
