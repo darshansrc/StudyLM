@@ -5,7 +5,6 @@ import { Message } from "ai";
 import { Session } from "next-auth";
 import { Chat as PreviewChat } from "@/components/chat";
 import Notes from "@/components/notes";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useTabStore } from "@/components/store/use-tab-store";
 
 export function Dashboard({
